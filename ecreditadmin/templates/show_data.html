@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Completed Tasks</title>
+</head>
+<body>
+    <h1>Completed Tasks</h1>
+    <table border="1">
+        <tr>
+            <th>Task Name</th>
+            <th>Task Status</th>
+            <th>Points Earned</th>
+            <th>Start Date</th>
+            <th>Completed Date</th>
+            <th>Action</th>
+        </tr>
+        {% if completed_tasks_data %}
+            {% for user_id, tasks in completed_tasks_data.items %}
+                {% for task_id, task_data in tasks.items %}
+                    <tr>
+                        <td>{{ task_data.taskName }}</td>
+                        <td>{{ task_data.TaskStatus }}</td>
+                        <td>{{ task_data.pointsEarned }}</td>
+                        <td>{{ task_data.startDate }}</td>
+                        <td>{{ task_data.completedDate }}</td>
+                        <td>
+                            <form method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="user_id" value="{{ user_id }}">
+                                <input type="hidden" name="task_id" value="{{ task_id }}">
+                                <select name="new_status">
+                                    <option value="submitted">Submitted</option>
+                                    <option value="approved">Approved</option>
+                                    <option value="declined">Declined</option>
+                                    <option value="rewarded">Rewarded</option>
+                                    <!-- Add other options as needed -->
+                                </select>
+                                <button type="submit">Update</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="6">No completed tasks found.</td>
+            </tr>
+        {% endif %}
+    </table>
+</body>
+</html>

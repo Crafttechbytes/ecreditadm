@@ -1,0 +1,13 @@
+# Ignore compiled Python files
+*.pyc
+
+# Ignore virtual environment
+venv/
+
+# Ignore IDE specific files
+.vscode/
+.idea/
+.env
+ecredit/__pycache__/
+ecreditadmin/__pycache__/
+ecredit/.env

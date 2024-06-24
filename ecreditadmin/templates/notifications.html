@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% block start %}
+{% load static %}
+
+<div class="content-wrapper">
+<div class="page-header">
+<h3 class="page-title">
+<span class="page-title-icon bg-gradient-primary text-white me-2">
+<i class="mdi mdi-home"></i>
+</span> Notification
+</h3>
+<nav aria-label="breadcrumb">
+<ul class="breadcrumb">
+<li class="breadcrumb-item active" aria-current="page">
+<span></span>Overview <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
+</li>
+</ul>
+</nav>
+</div>
+<!-- sent notifications -->
+    <div class="row">
+  <div class="col-12 grid-margin">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Notifications</h4>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                  <th>User Id</th>
+                  <th>Type</th>
+                  <th>Message</th>
+                  <th>Date Sent</th>
+                  <th>Action</th>
+        </tr>
+            </thead>
+            <tbody>
+            {% if notification_data %}
+            {% for user_id, notification in notification_data.items %}
+                {% for notification_id, notification_data in notification.items %}
+                    <tr>
+                        <td>{{ user_id }}</td>
+                        <td>{{ notification_data.messageType }}</td>
+                        <td>{{ notification_data.message }}</td>
+                        <td>{{ notification_data.sentDate }}</td>
+                        <td>
+                            <form id="statusForm" action="{% url 'delete_notification' %}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="user_id" value="{{ user_id }}">
+                                <input type="hidden" name="notification_id" value="{{ notification_id }}">
+                                <button type="submit" class="btn btn-gradient-success btn-rounded btn-fw">Update</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="6">No notifications sent.</td>
+            </tr>
+        {% endif %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- add notification -->
+    <div class="row">
+        <div class="col-md-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Notification</h4>
+                    <p class="card-description"> Send New Notification </p>
+                    <form class="forms-sample" action="{% url 'notifications' ' ' %}" method="POST">
+                        {% csrf_token %}
+                      <div class="form-group row">
+                        <label for="message" class="col-sm-3 col-form-label">Message </label>
+                        <div class="col-sm-9">
+                           <textarea class="form-control" id="message" name="message" rows="4" required></textarea>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                         <label for="type" class="col-sm-3 col-form-label"> Type</label>
+                           <div class="col-sm-9">
+                      <select id="type" name="type" class="btn btn-outline-primary btn-fw">
+                          <option value="Alert">Alert</option>
+                          <option value="Promotional">Promotional</option>
+                          <option value="Warning">Warning</option>
+                          <option value="Account">Account</option>
+                          <option value="Notification">Notification
+                      </select>
+                      </div>
+                      </div>
+                         <div class="form-group row">
+                        <label for="uids" class="col-sm-3 col-form-label">User Ids</label>
+                        <div class="col-sm-9">
+                        <select class="btn btn-outline-primary btn-fw" id="uids" name="uid">
+                        {% for key, value in uids.items %}
+                            <option value="{{ value }}">{{ value }}</option>
+                        {% endfor %}
+                    </select>
+                        </div>
+                      </div>
+                      <button type="submit" class="btn btn-gradient-primary me-2">Send Notification</button>
+                      <button class="btn btn-light">Cancel</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_scripts %}
+<!-- Add additional scripts for this page -->
+<!--    <script type="text/JavaScript" src="{% static 'scripts/save-location.js' %}"></script>-->
+{% endblock %}

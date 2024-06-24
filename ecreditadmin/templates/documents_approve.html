@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+{% block start %}
+{% load static %}
+
+<div class="content-wrapper">
+<div class="page-header">
+<h3 class="page-title">
+<span class="page-title-icon bg-gradient-primary text-white me-2">
+<i class="mdi mdi-home"></i>
+</span> Task Approve
+</h3>
+<nav aria-label="breadcrumb">
+<ul class="breadcrumb">
+<li class="breadcrumb-item active" aria-current="page">
+<span></span>Overview <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
+</li>
+</ul>
+</nav>
+</div>
+<div class="row">
+  <div class="col-12 grid-margin">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Documents Approve</h4>
+          <div id="success-message"></div>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                  <th>Uid</th>
+                <th>Back Id Img</th>
+                <th>Front Id Img</th>
+                <th>Selfie Img</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+
+{% if documents_data %}
+    {% for user_id, documents in documents_data.items %}
+        <tr>
+            <td>{{user_id}}</td>
+            <td>
+                <a href="#" onclick="openImagePopup('{{ documents.backpic.url }}')">
+                    <img src="{{ documents.backpic.url }}" class="me-2" alt="Back Image"> {{ documents.backpic.status }}
+                </a>
+            </td>
+            <td>
+                <a href="#" onclick="openImagePopup('{{ documents.frontpic.url }}')">
+                    <img src="{{ documents.frontpic.url }}" class="me-2" alt="Front Image"> {{ documents.frontpic.status }}
+                </a>
+            </td>
+            <td>
+                <a href="#" onclick="openImagePopup('{{ documents.selfiepic.url }}')">
+                    <img src="{{ documents.selfiepic.url }}" class="me-2" alt="Selfie Image"> {{ documents.selfiepic.status }}
+                </a>
+            </td>
+            <td>
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="user_id" value="{{ user_id }}">
+                    <label for="backpic_status">Back Image Status:</label>
+                    <select name="backpic_status" id="backpic_status" class="btn btn-outline-primary btn-fw">
+                        <option value="pending" {% if documents.backpic.status == 'pending' %}selected{% endif %}>Pending</option>
+                        <option value="approved" {% if documents.backpic.status == 'approved' %}selected{% endif %}>Approved</option>
+                        <option value="declined" {% if documents.backpic.status == 'declined' %}selected{% endif %}>Declined</option>
+                    </select>
+
+                    <label for="frontpic_status">Front Image Status:</label>
+                    <select name="frontpic_status" id="frontpic_status" class="btn btn-outline-primary btn-fw">
+                        <option value="pending" {% if documents.frontpic.status == 'pending' %}selected{% endif %}>Pending</option>
+                        <option value="approved" {% if documents.frontpic.status == 'approved' %}selected{% endif %}>Approved</option>
+                        <option value="declined" {% if documents.frontpic.status == 'declined' %}selected{% endif %}>Declined</option>
+                    </select>
+
+                    <label for="selfiepic_status">Selfie Image Status:</label>
+                    <select name="selfiepic_status" id="selfiepic_status" class="btn btn-outline-primary btn-fw">
+                        <option value="pending" {% if documents.selfiepic.status == 'pending' %}selected{% endif %}>Pending</option>
+                        <option value="approved" {% if documents.selfiepic.status == 'approved' %}selected{% endif %}>Approved</option>
+                        <option value="declined" {% if documents.selfiepic.status == 'declined' %}selected{% endif %}>Declined</option>
+                    </select>
+
+                    <button type="submit" id="btn_update" class="btn btn-gradient-success btn-rounded btn-fw">Update</button>
+                </form>
+            </td>
+        </tr>
+    {% endfor %}
+{% else %}
+    <tr>
+        <td colspan="6">No documents found.</td>
+    </tr>
+{% endif %}
+
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    function openImagePopup(imageUrl) {
+        window.open(imageUrl, 'Image Popup', 'width=600,height=400,resizable=yes');
+    }
+</script>
+    <script>
+        $(document).ready(function() {
+            $('form').submit(function(event) {
+                // Prevent default form submission
+                event.preventDefault();
+
+                // Serialize form data
+                var formData = $(this).serialize();
+
+                // Add loading spinner to the button
+            $("#btn_update").html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Updating..');
+
+                // Send AJAX request
+                $.ajax({
+                    type: 'POST',
+                    url: $(this).attr('action'), // Use the form's action attribute as the URL
+                    data: formData,
+                    success: function(response) {
+                        // Handle the response
+                        if (response.success) {
+                        // Display success message or handle accordingly
+                        $("#success-message").html('<div class="alert alert-success">' + response.message + '</div>');
+                           // alert('Success: ' + response.message);
+                            // You can perform additional actions here upon success
+                        } else {
+                        $("#success-message").html('<div class="alert alert-success">' + response.message + '</div>');
+                           // alert('Error: ' + response.message);
+                            // You can perform additional actions here upon failure
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error:', error);
+                        // Handle error
+                    },
+                    complete: function () {
+                    // Remove loading spinner from the button
+                    $("#btn_update").html('Update');
+                },
+                });
+            });
+        });
+    </script>
+
+<!-- Add additional scripts for this page -->
+<!--    <script type="text/JavaScript" src="{% static 'scripts/save-location.js' %}"></script>-->
+{% endblock %}

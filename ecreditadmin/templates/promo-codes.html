@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+{% block start %}
+{% load static %}
+
+<div class="content-wrapper">
+<div class="page-header">
+<h3 class="page-title">
+<span class="page-title-icon bg-gradient-primary text-white me-2">
+<i class="mdi mdi-home"></i>
+</span> Promo Codes
+</h3>
+<nav aria-label="breadcrumb">
+<ul class="breadcrumb">
+<li class="breadcrumb-item active" aria-current="page">
+<span></span>Overview <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
+</li>
+</ul>
+</nav>
+</div>
+<!--    promo codes-->
+    <div class="row">
+  <div class="col-12 grid-margin">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Promo Codes</h4>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                  <th>Promo Code</th>
+                  <th>Amount Worth</th>
+                  <th>Limit Use</th>
+                  <th>Used Limit</th>
+                  <th>Date Issued</th>
+                  <th>Expire Date</th>
+                  <th>Fully Redeemed</th>
+        </tr>
+            </thead>
+            <tbody>
+               {% if promoCodes %}
+                {% for promo_id, promo_data in promoCodes.items %}
+                    <tr>
+                        <td>{{ promo_data.promoCode }}</td>
+                        <td>{{ promo_data.amountWorth }}</td>
+                        <td>{{ promo_data.useLimit }}</td>
+                        <td>{{ promo_data.usedLimit }}</td>
+                        <td>{{ promo_data.dateIssued }}</td>
+                        <td>{{ promo_data.expireDate }}</td>
+                        <td>{{ promo_data.fullyRedeemed }}</td>
+                        <td>
+                            <form method="post" action="{% url 'promo_code_update' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="promo_id" value="{{ promo_id }}">
+                                <select name="redeem_status">
+                                    <option value="true">Fully Redeemed</option>
+                                    <option value="false">Not Fully Redeemed</option>
+                                    <!-- Add other options as needed -->
+                                </select>
+                                <button type="submit">Update</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="6">No promo codes found.</td>
+            </tr>
+        {% endif %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--    redeemed users-->
+    <div class="row">
+  <div class="col-12 grid-margin">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Redeemed PromoCodes</h4>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                  <th>User Id</th>
+                  <th>PromoCode  &nbsp;  <span style="color:green;">Redeemed</span></th>
+        </tr>
+            </thead>
+            <tbody>
+   {% if redeemed_users %}
+    {% for user_id, user_data in redeemed_users.items %}
+        <tr>
+            <td>{{ user_id }}</td>
+            <td>
+                <table>
+                    {% for key, value in user_data.items %}
+                        <tr>
+                            <td>{{ key }}</td>
+                            <td>{{ value }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </td>
+        </tr>
+    {% endfor %}
+{% else %}
+    <tr>
+        <td colspan="2">No promo code redeem information found.</td>
+    </tr>
+{% endif %}
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--    add promo code-->
+    <div class="row">
+        <div class="col-md-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Promo Code</h4>
+                    <p class="card-description"> Add New Promo Code </p>
+                    <form class="forms-sample" action="{% url 'promo-codes' %}" method="POST">
+                        {% csrf_token %}
+                      <div class="form-group row">
+                        <label for="promoCode" class="col-sm-3 col-form-label">Promo Code</label>
+                        <div class="col-sm-9">
+                          <input type="text" class="form-control" id="promoCode" name="promoCode" placeholder="promo code" required>
+                        </div>
+                      </div>
+<!--                      <div class="form-group row">-->
+<!--                        <label for="expireDate" class="col-sm-3 col-form-label">Expiry Date</label>-->
+<!--                        <div class="col-sm-9">-->
+<!--                          <input type="datetime-local" class="form-control" id="expireDate" name="expireDate" placeholder="expiry date">-->
+<!--                        </div>-->
+<!--                      </div>-->
+                      <div class="form-group row">
+                        <label for="amtWorth" class="col-sm-3 col-form-label">Amount Worth</label>
+                        <div class="col-sm-9">
+                          <input type="number" class="form-control" id="amtWorth" name="amountWorth" placeholder="Amount Worth" required>
+                        </div>
+                      </div>
+                         <div class="form-group row">
+                        <label for="useLimitNo" class="col-sm-3 col-form-label">Use Limit No</label>
+                        <div class="col-sm-9">
+                          <input type="number" class="form-control" id="useLimitNo" name="useLimit" placeholder="Limit Users" required>
+                        </div>
+                      </div>
+
+                         <div class="form-group row">
+                        <label for="activeDays" class="col-sm-3 col-form-label">Expire In Days</label>
+                        <div class="col-sm-9">
+                          <input type="number" class="form-control" id="activeDays" name="activeDays" placeholder="days to expire" required>
+                        </div>
+                      </div>
+                        <div class="form-check form-check-flat form-check-primary">
+                        <label class="form-check-label">
+                          <input type="checkbox" class="form-check-input" name="fullyRedeemed"> Fully Redeemed </label>
+                      </div>
+
+                      <button type="submit" class="btn btn-gradient-primary me-2">Add PromoCode</button>
+                      <button class="btn btn-light">Cancel</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_scripts %}
+<!-- Add additional scripts for this page -->
+<!--    <script type="text/JavaScript" src="{% static 'scripts/save-location.js' %}"></script>-->
+{% endblock %}

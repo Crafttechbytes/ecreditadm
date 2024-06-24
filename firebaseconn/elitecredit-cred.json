@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "elitecredit-83265",
+  "private_key_id": "f95793abf5a1b6f86f0d2055f573ec7d8f7b33c6",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDWvxOwPB36LUtQ\nzueNJ7MJ96QziFMDrpxRuCATtK/oxWV0128KnPveJK7nkETiPc5/bFxcC6o69Ojp\nmSyLp0ma0rpZ3K1LNMAMNpOI8dqZjiNaWwRIlbY92jG5oWRD8pWcvG6KxZeUOf26\nx2qv43syzbUY41npuzLHFui1cjE0cPFvrJn/3NrTg5tWf8grqGpAUu5HalyFlmA7\nGdENxj3DvXRNBuZflB4iCgjmaj/0HOJOYGokdklcK9OGmF/0ciOuRO/KkN6ETy/F\nO+6a2hrlxKMddFhpgMu12SUSoML8nid11E7gJjMvd1nYoHfzKgS7U4Bz/BCZ/NUx\nNHBDJKn5AgMBAAECggEAIYdu8wbH5W5aApFzjNIEfctpG1SvJXWHWakGdR0ylATy\nDNawMzeEidAvcN9RKgPdcH7CQurdVtwzW3m7f0iM0PwS9YHjmsjvLVj+GxUr/Oq4\n8VwhpJWfgTPGrMWaqpM/Mdwn5Enqm02cpKOLMFAzxaBhpLOmr7w3NueISQA914J7\nfG4idhwnDrhEj/wRBX/lUCbGtVbNtw09POLO5lkFsX83iLNqso9MS4lCvTvq7AWB\ntDLPEhwXuVDZwcbuL7Cze9c4pRZJ5ao6/q+nuAPzOwXAEPOWwWSO2+dld+c02a/T\nRGNaKL6cOpeUOhqRKjHH/k5vhaYqE9V73CtjslC3KQKBgQD8jq6fQfin+jeLlq0d\nUEFioBgZ72Z22x+aygyYvNde9a+t870yLmwLZwMkd06xqZbE2hkAkf459hkAarvC\ntetpKYDrW9bda/NpVJlIhW2jUYV7ZDgI8+VrvHqwEbt0zWts6enriuLpTTCx92eS\nGtAlIiUietkzlh+7EUIdBlesTQKBgQDZrHNbCy7C9SJmIZqTgDNCUVUQj14zDRmO\n6TnbqClTGiMDu7lGj/N5zDaOzxYl4O+S/DQENmKMbhpA1gS4Ms7aINMqkLQAEhAt\npIUEVgEYRcCPa2MfAwpJjwJ6+bLWTJpRdtjfvyvSdDALMqywPKA4Yt482MhnZ2wt\nT1zRqZhaXQKBgCoxmEDpH6bIqeD7Ql7EWrgkcQJcOa0fvK76lJIr8ntd5oTUVMZ+\ndPSOuDquaApMf/DRUx4CRgve7pxgOJA2HmdKVMx9Ym9JqrftN1KjYAbKBtfvjWEJ\nhkmyinjB7aR88TaX+cmtQW2ixMDmyXniWuXpR3T0OzdgHFr/biE1Pw59AoGAZUyG\n5pC+s0XnO0ZaLFiWAj/daXZ+7R0kjshk/58zlBPuxZcAMyFcuorZvP4MnZYfh/TM\ntEUm+ZlnqFKxIZOrhgGOpBlxWzMMymDs8kaf/c7APT5Jg64jhHYEPnyjyG0fx9ea\nOA48c5VUonFzwhSEr5j7Oa/dG5oa0r9DP+NAHpUCgYEAt6Pwka3Wt2D1YLNAjiML\ncjQY5REE04CrUcvqpVK5AuDigCzzcoaRDZaqdjgGEBRd/7q/7MO04loWAJ+bVVXr\nNXBC3FtN39hFEX+5Aec5YGjw8VJqd3pdx8dYjBfFmkm6Tz2a6NMrB2PBnlu+Wkl2\nzBlBbhyfGyr8il8ZlDAC1FA=\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-43v35@elitecredit-83265.iam.gserviceaccount.com",
+  "client_id": "107068745058712111108",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-43v35%40elitecredit-83265.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

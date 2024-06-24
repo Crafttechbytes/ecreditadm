@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+{% block start %}
+{% load static %}
+
+<div class="content-wrapper">
+<div class="page-header">
+<h3 class="page-title">
+<span class="page-title-icon bg-gradient-primary text-white me-2">
+<i class="mdi mdi-home"></i>
+</span> App Version
+</h3>
+<nav aria-label="breadcrumb">
+<ul class="breadcrumb">
+<li class="breadcrumb-item active" aria-current="page">
+<span></span>Overview <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
+</li>
+</ul>
+</nav>
+</div>
+
+<!--    add promo code-->
+    <div class="row">
+        <div class="col-md-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Version</h4>
+                    <p class="card-description"> Upgrade Version </p>
+                    <form class="forms-sample" action="{% url 'version-check' %}" method="POST">
+                        {% csrf_token %}
+                        <div class="form-group row">
+                        <label for="versionName" class="col-sm-3 col-form-label">Version Name</label>
+                        <div class="col-sm-9">
+                          <input type="text" class="form-control" id="versionName" name="versionName" value="{{version_data.versionName}}" placeholder="version Name" required>
+                        </div>
+                      </div>
+
+                        <div class="form-group row">
+                        <label for="versionCode" class="col-sm-3 col-form-label">Version Code</label>
+                        <div class="col-sm-9">
+                          <input type="text" class="form-control" id="versionCode" name="versionCode" value="{{version_data.versionCode}}" placeholder="version Code" required>
+                        </div>
+                      </div>
+
+                         <div class="form-group row">
+                        <label for="updateUrl" class="col-sm-3 col-form-label">Update Url</label>
+                        <div class="col-sm-9">
+                          <input type="url" class="form-control" id="updateUrl" name="updateUrl" value="{{version_data.updateUrl}}" placeholder="Update Url" required>
+                        </div>
+                      </div>
+
+                        <div class="form-group row">
+                        <label for="date" class="col-sm-3 col-form-label">Date Updated</label>
+                        <div class="col-sm-9">
+                          <input type="text" class="form-control" id="date" name="dateUpdated" value="{{version_data.dateUpdated}}" placeholder="Updated date" disabled readonly>
+                        </div>
+                      </div>
+
+                         <div class="form-group row">
+                        <label for="payment_url" class="col-sm-3 col-form-label">Payment Url</label>
+                        <div class="col-sm-9">
+                          <input type="url" class="form-control" id="payment_url" name="payment_url" value="{{version_data.paymentUrl}}" placeholder="payment link" required>
+                        </div>
+                      </div>
+                      <button type="submit" class="btn btn-gradient-primary me-2">App Update Details</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+    </div>
+
+    <!--    polict,terms, acceptance links-->
+    <div class="row">
+        <div class="col-md-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Setting Links</h4>
+                    <p class="card-description"> Update Settings Links </p>
+                    <form class="forms-sample" action="{% url 'settings-links' %}" method="POST">
+                        {% csrf_token %}
+                        <div class="form-group row">
+                        <label for="aboutLink" class="col-sm-3 col-form-label">About Link</label>
+                        <div class="col-sm-9">
+                          <input type="url" class="form-control" id="aboutLink" name="aboutLink" value="{{settings_links_data.aboutLink}}" placeholder="about Link" required>
+                        </div>
+                      </div>
+
+                        <div class="form-group row">
+                        <label for="termsLink" class="col-sm-3 col-form-label">Terms Link</label>
+                        <div class="col-sm-9">
+                          <input type="url" class="form-control" id="termsLink" name="termsLink" value="{{settings_links_data.termsLink}}" placeholder="version Code" required>
+                        </div>
+                      </div>
+
+                         <div class="form-group row">
+                        <label for="privacyPolicyLink" class="col-sm-3 col-form-label">privacy Policy Link</label>
+                        <div class="col-sm-9">
+                          <input type="url" class="form-control" id="privacyPolicyLink" name="privacyPolicyLink" value="{{settings_links_data.privacyPolicyLink}}" placeholder="privacy Policy Link" required>
+                        </div>
+                      </div>
+
+                        <div class="form-group row">
+                        <label for="acceptanceUseLink" class="col-sm-3 col-form-label">Acceptance UseLink</label>
+                        <div class="col-sm-9">
+                          <input type="url" class="form-control" id="acceptanceUseLink" name="acceptanceUseLink" value="{{settings_links_data.acceptanceUseLink}}" placeholder="acceptance Use Link" required>
+                        </div>
+                      </div>
+
+                      <button type="submit" class="btn btn-gradient-primary me-2">App Links Details</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+    </div>
+
+    <!-- social links update -->
+    <div class="row">
+        <div class="col-md-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Social Links</h4>
+                    <p class="card-description"> Update Social Links </p>
+                    <form class="forms-sample" action="{% url 'social-links-update' %}" method="POST">
+                        {% csrf_token %}
+                        <div class="form-group row">
+                        <label for="facebook_link" class="col-sm-3 col-form-label">Facebook Link</label>
+                        <div class="col-sm-9">
+                          <input type="url" class="form-control" id="facebook_link" name="facebook_link" value="{{social_links_data.facebook_link}}" placeholder="facebook link" required>
+                        </div>
+                      </div>
+
+                        <div class="form-group row">
+                        <label for="x_link" class="col-sm-3 col-form-label">X Link</label>
+                        <div class="col-sm-9">
+                          <input type="url" class="form-control" id="x_link" name="x_link" value="{{social_links_data.x_link}}" placeholder="x link" required>
+                        </div>
+                      </div>
+
+                         <div class="form-group row">
+                        <label for="youtube_link" class="col-sm-3 col-form-label">Youtube Link</label>
+                        <div class="col-sm-9">
+                          <input type="url" class="form-control" id="youtube_link" name="youtube_link" value="{{social_links_data.youtube_link}}" placeholder="youtube link" required>
+                        </div>
+                      </div>
+
+                        <div class="form-group row">
+                        <label for="playstore_link" class="col-sm-3 col-form-label">Playstore Link</label>
+                        <div class="col-sm-9">
+                          <input type="url" class="form-control" id="playstore_link" name="playstore_link" value="{{social_links_data.playstore_link}}" placeholder="playstore link" required>
+                        </div>
+                      </div>
+
+                      <button type="submit" class="btn btn-gradient-primary me-2">Social Links Update</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_scripts %}
+<!-- Add additional scripts for this page -->
+<!--    <script type="text/JavaScript" src="{% static 'scripts/save-location.js' %}"></script>-->
+{% endblock %}

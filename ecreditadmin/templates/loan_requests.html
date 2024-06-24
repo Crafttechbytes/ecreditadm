@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block start %}
+{% load static %}
+
+<div class="content-wrapper">
+<div class="page-header">
+<h3 class="page-title">
+<span class="page-title-icon bg-gradient-primary text-white me-2">
+<i class="mdi mdi-home"></i>
+</span> Loan Requests
+</h3>
+<nav aria-label="breadcrumb">
+<ul class="breadcrumb">
+<li class="breadcrumb-item active" aria-current="page">
+<span></span>Overview <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
+</li>
+</ul>
+</nav>
+</div>
+<div class="row">
+  <div class="col-12 grid-margin">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title"> Redeems </h4>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                  <th> Display Name </th>
+                  <th>Initial Amount</th>
+                  <th> Period </th>
+                  <th> Applied Date </th>
+                  <th> Due Date </th>
+                  <th> Due Amount </th>
+                  <th> User Id </th>
+                  <th> Status </th>
+                  <th> Edit Status </th>
+                  <th> Action </th>
+              </tr>
+            </thead>
+            <tbody>
+               {% if loan_applications %}
+            {% for user_id, loan_data in loan_applications.items %}
+                    <tr>
+                        <td>{{ loan_data.displayName }}</td>
+                        <td>{{ loan_data.amountText }} <span> Kes</span></td>
+                        <td>{{ loan_data.period }}</td>
+                        <td>{{ loan_data.appliedDate }}</td>
+                        <td>{{ loan_data.dueDate }}</td>
+                        <td>{{ loan_data.dueAmount }}</td>
+                        <td>{{ loan_data.uid }}</td>
+                        <td>{{ loan_data.status }}</td>
+                        <td>
+                            <form method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="user_id" value="{{ user_id }}">
+                                <input type="hidden" name="transaction_key" value="{{ loan_data.transaction_key }}">
+                                <select name="new_status">
+                                    <option value="Pending">Pending</option>
+                                    <option value="Approved">Approved</option>
+                                    <option value="Disbursed">Disbursed</option>
+                                    <option value="Paid">Paid</option>
+                                    <option value="Rejected">Rejected</option>
+                                    <!-- Add other options as needed -->
+                                </select>
+                                <button type="submit">Update</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="6">No loan requests found.</td>
+            </tr>
+        {% endif %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+{% endblock %}
+
+{% block extra_scripts %}
+<!-- Add additional scripts for this page -->
+<!--    <script type="text/JavaScript" src="{% static 'scripts/save-location.js' %}"></script>-->
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block start %}
+{% load static %}
+
+<div class="content-wrapper">
+<div class="page-header">
+  <h3 class="page-title">
+    <span class="page-title-icon bg-gradient-primary text-white me-2">
+      <i class="mdi mdi-home"></i>
+    </span> Frequenty asked questions items
+  </h3>
+  <nav aria-label="breadcrumb">
+    <ul class="breadcrumb">
+      <li class="breadcrumb-item active" aria-current="page">
+        <span></span>Overview <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
+      </li>
+    </ul>
+  </nav>
+</div>
+<div class="row">
+  <div class="col-12 grid-margin">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Frequenty asked questions</h4>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                  <th>Faq Question</th>
+                  <th>Answer</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% if faqItem %}
+            {% for faq_id, faqItem in faqItem.items %}
+                <tr>
+                    <td>{{ faqItem.question }}</td>
+                    <td>{{ faqItem.answer }}</td>
+                </tr>
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="6">No faq items found.</td>
+            </tr>
+        {% endif %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+<!--  faq items add-->
+  <div class="col-12 grid-margin stretch-card">
+  <div class="card">
+    <div class="card-body">
+      <h4 class="card-title">Add faq questions</h4>
+      <p class="card-description"> Add faq </p>
+      <form id="faqItemsFormAdd" method="POST" action="{% url 'add_faq_get' %}" enctype="multipart/form-data" class="forms-sample">
+        {% csrf_token %}
+         <div class="form-group">
+          <label for="question">Question</label>
+          <input type="text" class="form-control" id="question" name="question" required placeholder="Question">
+        </div>
+         <div class="form-group">
+          <label for="answer">Answer</label>
+          <textarea class="form-control" id="answer"  name="answer" placeholder="Faq Answer...."  required rows="4"></textarea>
+        </div>
+        <div id="responseFaqMsg"></div>
+        <button type="submit" class="btn btn-gradient-primary me-2">Add Faq Item</button>
+        <button class="btn btn-light">Cancel</button>
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+
+{% endblock %}
+
+{% block extra_scripts %}
+<!-- Add additional scripts for this page -->
+    <script type="text/JavaScript" src="{% static 'scripts/addFaq.js' %}"></script>
+{% endblock %}

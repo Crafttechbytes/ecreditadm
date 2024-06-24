@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block start %}
+{% load static %}
+
+<div class="content-wrapper">
+<div class="page-header">
+<h3 class="page-title">
+<span class="page-title-icon bg-gradient-primary text-white me-2">
+<i class="mdi mdi-home"></i>
+</span> History Recent Activity
+</h3>
+<nav aria-label="breadcrumb">
+<ul class="breadcrumb">
+<li class="breadcrumb-item active" aria-current="page">
+<span></span>Overview <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
+</li>
+</ul>
+</nav>
+</div>
+<div class="row">
+  <div class="col-12 grid-margin">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">History Data</h4>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                  <th>Transaction Type</th>
+                  <th>Transaction Ref</th>
+                  <th>Amount</th>
+                  <th>Tag</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                  <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+             {% if recent_activity_data %}
+            {% for user_id, activity in recent_activity_data.items %}
+                {% for activity_id, activity_data in activity.items %}
+                    <tr>
+                        <td>{{ activity_data.transactionType }}</td>
+                        <td>{{ activity_data.transaction_id }}</td>
+                        <td>{{ activity_data.amount }}</td>
+                        <td>{{ activity_data.tag }}</td>
+                        <td>{{ activity_data.date }}</td>
+                        <td>{{ activity_data.status }}</td>
+                        <td>
+                            <form method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="user_id" value="{{ user_id }}">
+                                <input type="hidden" name="activity_id" value="{{ activity_id }}">
+                                <select name="new_status">
+                                    <option value="submitted">Submitted</option>
+                                    <option value="complete">Completed</option>
+                                    <option value="in progress task">In Progress</option>
+                                    <option value="declined">Declined</option>
+                                    <option value="rewarded">Rewarded</option>
+                                    <!-- Add other options as needed -->
+                                </select>
+                                <button type="submit">Update</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="6">No recent activity found.</td>
+            </tr>
+        {% endif %}
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    function openImagePopup(imageUrl) {
+        window.open(imageUrl, 'Image Popup', 'width=600,height=400,resizable=yes');
+    }
+</script>
+
+<!-- Add additional scripts for this page -->
+<!--    <script type="text/JavaScript" src="{% static 'scripts/save-location.js' %}"></script>-->
+{% endblock %}

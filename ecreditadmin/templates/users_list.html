@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block start %}
+{% load static %}
+
+<div class="content-wrapper">
+<div class="page-header">
+<h3 class="page-title">
+<span class="page-title-icon bg-gradient-primary text-white me-2">
+<i class="mdi mdi-home"></i>
+</span> All Users
+</h3>
+<nav aria-label="breadcrumb">
+<ul class="breadcrumb">
+<li class="breadcrumb-item active" aria-current="page">
+<span></span>Overview <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
+</li>
+</ul>
+</nav>
+</div>
+<div class="row">
+  <div class="col-12 grid-margin">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Users</h4>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                  <th>Full Name</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Gender</th>
+                  <th>Uid</th>
+                  <th>Date Joined</th>
+        </tr>
+            </thead>
+            <tbody>
+            {% if user_data %}
+            {% for user_id, user_data in user_data.items %}
+                <tr>
+                    <td>{{ user_data.name }}</td>
+                    <td>{{ user_data.email }}</td>
+                    <td>{{ user_data.phone }}</td>
+                    <td>{{ user_data.gender }}</td>
+                    <td>{{ user_data.uid }}</td>
+                    <td>{{ user_data.dateJoined }}</td>
+                    <td>
+                            <form id="statusForm" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="user_id" value="{{ user_id }}">
+                                <a class="nav-link" href="{% url 'notifications' user_id %}" >Send notification</a>
+                                <button type="submit" class="btn btn-gradient-success btn-rounded btn-fw">Update</button>
+                            </form>
+                        </td>
+                </tr>
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="6">No user information found.</td>
+            </tr>
+        {% endif %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+{% endblock %}
+
+{% block extra_scripts %}
+<!-- Add additional scripts for this page -->
+<!--    <script type="text/JavaScript" src="{% static 'scripts/save-location.js' %}"></script>-->
+{% endblock %}

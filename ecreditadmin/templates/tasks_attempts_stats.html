@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block start %}
+{% load static %}
+
+<div class="content-wrapper">
+<div class="page-header">
+<h3 class="page-title">
+<span class="page-title-icon bg-gradient-primary text-white me-2">
+<i class="mdi mdi-home"></i>
+</span> Tasks Stats
+</h3>
+<nav aria-label="breadcrumb">
+<ul class="breadcrumb">
+<li class="breadcrumb-item active" aria-current="page">
+<span></span>Overview <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
+</li>
+</ul>
+</nav>
+</div>
+<div class="row">
+  <div class="col-12 grid-margin">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Tasks Status</h4>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                  <th>Task ID</th>
+                  <th>Approved</th>
+                  <th>Rejected</th>
+                  <th>Attempted</th>
+              </tr>
+            </thead>
+            <tbody>
+             {% if task_attempt_data %}
+              {% for task_id, task_attempt_data in task_attempt_data.items %}
+    <tr>
+      <td>{{ task_id }}</td>
+      <td>{{ task_attempt_data.approved }}</td>
+      <td>{{ task_attempt_data.rejected }}</td>
+      <td>{{ task_attempt_data.attempted }}</td>
+    </tr>
+    {% endfor %}
+            {% else %}
+            <tr>
+                <td colspan="6">No Task Attempts.</td>
+            </tr>
+        {% endif %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+{% endblock %}
+
+{% block extra_scripts %}
+<!-- Add additional scripts for this page -->
+<!--    <script type="text/JavaScript" src="{% static 'scripts/save-location.js' %}"></script>-->
+{% endblock %}

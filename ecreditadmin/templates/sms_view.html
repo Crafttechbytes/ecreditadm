@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% block start %}
+{% load static %}
+
+<div class="content-wrapper">
+    <div class="page-header">
+        <h3 class="page-title">
+<span class="page-title-icon bg-gradient-primary text-white me-2">
+<i class="mdi mdi-home"></i>
+</span> Sms
+        </h3>
+        <nav aria-label="breadcrumb">
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item active" aria-current="page">
+                    <span></span>Overview <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <div class="row">
+        <div class="col-12 grid-margin">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Sms View</h4>
+                    <div id="success-message"></div>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>User Id</th>
+                                <th>Date</th>
+                                <th>Address</th>
+                                <th>Message</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% if sms_data %}
+                            {% for user_id, sms in sms_data.items %}
+                            {% for message_id, message_data in sms.items %}
+                            <tr>
+                                <td>{{ user_id }}</td>
+                                <td>{{ message_data.date }}</td>
+                                <td>{{ message_data.address }}</td>
+                                <td>{{ message_data.body }}</td>
+                                <td>
+                                    <form id="statusForm" method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="user_id" value="{{ user_id }}">
+                                        <input type="hidden" name="message_id" value="{{ message_id }}">
+                                        <select name="new_status" class="btn btn-outline-primary btn-fw">
+                                            <option value="delete">Delete</option>
+                                            <option value="decline">Decline</option>
+                                            <!-- Add other options as needed -->
+                                        </select>
+                                        <button type="submit" class="btn btn-gradient-success btn-rounded btn-fw">
+                                            Update
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            {% endfor %}
+                            {% else %}
+                            <tr>
+                                <td colspan="6">No messages found.</td>
+                            </tr>
+                            {% endif %}
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    function openImagePopup(imageUrl) {
+        window.open(imageUrl, 'Image Popup', 'width=600,height=400,resizable=yes');
+    }
+</script>
+<script>
+    $(document).ready(function() {
+        $('form').submit(function(event) {
+            // Prevent default form submission
+            event.preventDefault();
+
+            // Serialize form data
+            var formData = $(this).serialize();
+
+            // Add loading spinner to the button
+        $("#statusForm button").html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Updating..');
+
+            // Send AJAX request
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('action'), // Use the form's action attribute as the URL
+                data: formData,
+                success: function(response) {
+                    // Handle the response
+                    if (response.success) {
+                    // Display success message or handle accordingly
+                    $("#success-message").html('<div class="alert alert-success">' + response.message + '</div>');
+                       // alert('Success: ' + response.message);
+                        // You can perform additional actions here upon success
+                    } else {
+                    $("#success-message").html('<div class="alert alert-success">' + response.message + '</div>');
+                       // alert('Error: ' + response.message);
+                        // You can perform additional actions here upon failure
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                    // Handle error
+                },
+                complete: function () {
+                // Remove loading spinner from the button
+                $("#statusForm button").html('Update');
+            },
+            });
+        });
+    });
+</script>
+
+<!-- Add additional scripts for this page -->
+<!--    <script type="text/JavaScript" src="{% static 'scripts/save-location.js' %}"></script>-->
+{% endblock %}
